@@ -9,8 +9,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='FusionCount')
     parser.add_argument('--input_path', default='data', help='data input path')
     parser.add_argument('--output_path', default='dataset', help='data output path')
-    parser.add_argument('--dataset', default='sha', help='dataset name')
-    parser.add_argument('--model', default='')
+    parser.add_argument('--dataset_name', default='sha', help='dataset name')
     args = parser.parse_args()
     return args
 
@@ -138,52 +137,45 @@ def preprocess_sh(input_path, output_path, dataset, max_size):
             np.save(label_save_path, points)
             count += 1
 
-def run(args):
-    if args.dataset == 'all':
-        print(f'preprocessing sha')
-        preprocess_sh(os.path.join(args.input_path, 'sha'), os.path.join(args.output_path, 'sha'), 'sha', 1920)
-        print(f'preprocessing shb')
-        preprocess_sh(os.path.join(args.input_path, 'shb'), os.path.join(args.output_path, 'shb'), 'shb', 1920)
-        print(f'preprocessing qnrf')
-        preprocess_qnrf(os.path.join(args.input_path, 'qnrf'), os.path.join(args.output_path, 'qnrf'), 'qnrf', 1920)
-        print(f'preprocessing nwpu')
-        preprocess_nwpu(os.path.join(args.input_path, 'nwpu'), os.path.join(args.output_path, 'nwpu'), 'nwpu', 1920)
-    else:
-        for dataset_name in args.dataset.split('_'):
-            print(f'preprocessing {dataset_name}')
-            if dataset_name == 'sha' or dataset_name == 'shb':
-                preprocess_sh(os.path.join(args.input_path, dataset_name), output_path, dataset_name, 1920)
-            elif dataset_name == 'qnrf':
-                preprocess_qnrf(os.path.join(args.input_path, dataset_name), output_path, dataset_name, 1920)
-            elif dataset_name == 'nwpu':
-                preprocess_nwpu(os.path.join(args.input_path,dataset_name), output_path, dataset_name, 1920)
+def preprocess_ucfcc(input_path, output_path, dataset, max_size):
+    images_by_mode = dict()
+    images = glob.glob(os.path.join(input_path, '*.jpg'))
+    train_images = images[:int(len(images)*0.8)]
+    val_images = images[int(len(images)*0.8):int(len(images)*0.8) + int(len(images)*0.1)]
+    test_images = images[int(len(images)*0.8) + int(len(images)*0.1):]
+    images_by_mode['train'] = train_images
+    images_by_mode['val'] = val_images
+    images_by_mode['test'] = test_images
+    for mode, image_paths in images_by_mode.items():
+        save_dir = os.path.join(output_path, mode)
+        os.makedirs(save_dir, exist_ok=True)
+        count = 1
+        for image_path in image_paths:
+            name = f'{dataset}_{count:05d}.jpg'
+            image_save_path = os.path.join(save_dir, name)
+            label_path = image_path.replace('.jpg', '_ann.mat')
+            points = loadmat(label_path)['annPoints'].astype(np.float32)
+            if not points.any():
+                continue
+            image = Image.open(image_path).convert('RGB')
+            image, points = reform_data(image, points, max_size)
+            image.save(image_save_path)
+            label_save_path = image_save_path.replace('jpg', 'npy')
+            np.save(label_save_path, points)
+            count += 1
+
 
 if __name__ == '__main__':
     args = parse_args()
-    args.output_path = os.path.join(args.model, args.output_path)
-    input_path = os.path.join(args.input_path, args.dataset)
-    output_path = os.path.join(args.output_path, args.dataset)
-    if args.dataset_name == 'sha' or args.dataset_name == 'shb':
+    input_path = os.path.join(args.input_path, args.dataset_name)
+    output_path = os.path.join(args.output_path, args.dataset_name)
+    if args.dataset_name.lower() == 'sha' or args.dataset_name.lower() == 'shb':
         preprocess_sh(input_path, output_path, args.dataset_name, 1920)
-    elif args.dataset_name == 'qnrf':
+    elif args.dataset_name.lower() == 'qnrf':
         preprocess_qnrf(input_path, output_path, args.dataset_name, 1920)
-    elif args.dataset_name == 'nwpu':
+    elif args.dataset_name.lower() == 'nwpu':
         preprocess_nwpu(input_path, output_path, args.dataset_name, 1920)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    elif args.dataset_name.lower() == 'ucf_cc' or args.dataset_name.lower() == 'ucf_cc_50':
+        preprocess_ucfcc(input_path, output_path, args.dataset_name, 1920)
+    else:
+        raise NotImplementedError
