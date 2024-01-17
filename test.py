@@ -33,14 +33,8 @@ def main(args):
     model_path = args.weight_path
     crop_size = args.crop_size
     dataset = crowd.Crowd_(os.path.join('dataset', args.dataset, 'test'), crop_size, 8, method='val')
-    dataloader = torch.utils.data.DataLoader(dataset, 1, shuffle=False,
-                                             num_workers=1, pin_memory=True)
-
-    if args.save_path:
-        import cv2
-        if not os.path.exists(args.save_path):
-            os.makedirs(args.save_path)
-
+    dataloader = torch.utils.data.DataLoader(dataset, 1, shuffle=False, num_workers=1, pin_memory=True)
+    
     model = FusionCount(args)
     model.to(device)
     model.load_state_dict(torch.load(model_path, device))
@@ -82,7 +76,5 @@ def main(args):
     print(np.mean(np.array(times)))
 
 if __name__ == "__main__":
-    start_time = time.time()
     args = get_args_parser()
     main(args)
-    print(time.time() - start_time)
