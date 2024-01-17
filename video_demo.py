@@ -30,6 +30,7 @@ device = torch.device('cuda')
 
 model_path = args.weight_path
 crop_size = args.crop_size
+os.makedirs(args.save_path, exist_ok=True)
 
 dataset = crowd.Crowd_no(os.path.join('dataset', args.dataset), crop_size, 8, method='test')
 
