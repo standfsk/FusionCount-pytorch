@@ -44,10 +44,7 @@ def main(args):
         inputs = inputs.to(device)
         assert inputs.size(0) == 1, 'the batch size should equal to 1'
         with torch.set_grad_enabled(False):
-            t1 = time.time()
             outputs, _ = model(inputs)
-            t2 = time.time()
-            times.append(t2-t1)
         img_err = count[0].item() - torch.sum(outputs).item()
 
         if args.verbose:
@@ -73,7 +70,6 @@ def main(args):
     mse = np.sqrt(np.mean(np.square(image_errs)))
     mae = np.mean(np.abs(image_errs))
     print(f'{model_path} mse: {round(mse, 2)} mae: {round(mae, 2)}')
-    print(np.mean(np.array(times)))
 
 if __name__ == "__main__":
     args = get_args_parser()
