@@ -69,7 +69,3 @@ class FusionCount(nn.Module):
         mu_sum = mu.view([B, -1]).sum(1).unsqueeze(1).unsqueeze(2).unsqueeze(3)
         mu_normed = mu / (mu_sum + 1e-6)
         return mu, mu_normed
-
-    model = VGG(make_layers(cfg['E']))
-    model.load_state_dict(model_zoo.load_url(model_urls[args.backbone]), strict=False)
-    return model
