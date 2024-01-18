@@ -35,7 +35,6 @@ class FusionCount(nn.Module):
         )
 
         self.output_layer = _initialize_weights(output_layer)
-        self.maxPool = nn.MaxPool2d(kernel_size=8)
         self.density_layer = nn.Sequential(nn.Conv2d(128, 1, 1), nn.ReLU())
 
     def forward(self, x: Tensor) -> Tensor:
@@ -64,7 +63,7 @@ class FusionCount(nn.Module):
         feat_1 = F.interpolate(feat_1, size=x.shape[-2:], mode="bilinear", align_corners=False)
 
         output = self.output_layer(feat_1)
-        mu = self.maxPool(output)
+        mu = F.avg_pool2d(output, kernel_size=8, stride=8)
         B, C, H, W = mu.size()
         mu_sum = mu.view([B, -1]).sum(1).unsqueeze(1).unsqueeze(2).unsqueeze(3)
         mu_normed = mu / (mu_sum + 1e-6)
