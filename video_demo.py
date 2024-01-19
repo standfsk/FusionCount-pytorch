@@ -23,6 +23,7 @@ parser.add_argument('--dataset', type=str, default='qnrf',
                     help='dataset name: qnrf, nwpu, sha, shb')
 parser.add_argument('--save_path', default='result', help='final image save path')
 parser.add_argument('--backbone', default='vgg16')
+parser.add_argument('--verbose', action='store_true', help='Enable verbose mode')
 args = parser.parse_args()
 
 os.environ['CUDA_VISIBLE_DEVICES'] = args.device  # set vis gpu
@@ -46,6 +47,10 @@ for step, (inputs, name) in enumerate(dataloader):
     assert inputs.size(0) == 1, 'the batch size should equal to 1'
     with torch.set_grad_enabled(False):
         outputs, _ = model(inputs)
+    
+    if args.verbose:
+      print(f'{name[0]} pred_cnt: {np.sum(outputs)}')
+  
     vis_img = outputs[0, 0].cpu().numpy()
     # normalize density map values from 0 to 1, then map it to 0-255.
     vis_img = (vis_img - vis_img.min()) / (vis_img.max() - vis_img.min() + 1e-5)
