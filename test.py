@@ -19,7 +19,7 @@ def get_args_parser():
     parser.add_argument('--dataset', type=str, default='sha',
                         help='dataset name: qnrf, nwpu, sha, shb')
     parser.add_argument('--save_path', default='', help='final image save path')
-    parser.add_argument('--verbose', default=True)
+    parser.add_argument('--verbose', action='store_true', help='Enable verbose mode')
     parser.add_argument('--backbone', default='vgg16')
 
     args = parser.parse_args()
