@@ -49,6 +49,8 @@ def main(args):
     overlay_weight = 0.6
     overlay = cv2.addWeighted(original_image, 1 - overlay_weight, density_map, overlay_weight, 0)
     cv2.imwrite('final.jpg', overlay)
+    print("onnx run success!!")
+
 
 if __name__ == "__main__":
     args = get_args_parser()
