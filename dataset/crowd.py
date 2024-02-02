@@ -114,7 +114,6 @@ class Crowd_(Base):
         super().__init__(root_path, crop_size, downsample_ratio)
         self.method = method
         self.im_list = sorted(glob(os.path.join(self.root_path, '*.jpg')))
-        print('number of img: {}'.format(len(self.im_list)))
 
         if method not in ['train', 'val', 'test']:
             raise Exception("not implement")
@@ -147,7 +146,6 @@ class Crowd_no(Base):
         super().__init__(root_path, crop_size, downsample_ratio)
         self.method = method
         self.im_list = sorted(glob(os.path.join(self.root_path, '*.jpg')))
-        print('number of img: {}'.format(len(self.im_list)))
 
     def __len__(self):
         return len(self.im_list)
