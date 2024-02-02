@@ -8,7 +8,7 @@ import argparse
 
 def get_args_parser():
     parser = argparse.ArgumentParser(description='Test ')
-    parser.add_argument('--device', default='3', help='assign device')
+    parser.add_argument('--device', default='0', help='assign device')
     parser.add_argument('--crop-size', type=int, default=512,
                         help='the crop size of the train image')
     parser.add_argument('--weight_path', type=str, default='fc.onnx',
