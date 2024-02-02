@@ -29,7 +29,7 @@ def main(args):
     dataset = crowd.Crowd_(os.path.join('dataset', dataset_name, 'test'), args.crop_size, 8, method='test')
     dataloader = torch.utils.data.DataLoader(dataset, 1, shuffle=False, num_workers=1, pin_memory=True)
     inputs, name = next(iter(dataloader))
-    inputs = inputs.half().to(device)
+    inputs = inputs.to(device)
 
     ort_session = onnxruntime.InferenceSession(args.weight_path)
     ort_inputs = {ort_session.get_inputs()[0].name: to_numpy(inputs)}
