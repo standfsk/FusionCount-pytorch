@@ -45,7 +45,7 @@ $ python test.py --weight_path ckpt/ucfcc/best_model.pth --dataset ucfcc --gpu_i
 
 ## Demo
 ```
-$ python video_demo.py --weight_path ckpt/ucfcc/best_model.pth --dataset ucfcc --gpu_id 0
+$ python video_demo.py --weight_path ckpt/ucfcc/best_model.pth --video_name sample.mp4 --save --gpu_id 0 
 ```
 
 ## Result
