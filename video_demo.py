@@ -14,7 +14,7 @@ from scipy.ndimage import gaussian_filter
 start_time = time.time()
 
 parser = argparse.ArgumentParser(description='Test ')
-parser.add_argument('--device', default='0', help='assign device')
+parser.add_argument('--gpu_id', default='0', help='assign device')
 parser.add_argument('--crop-size', type=int, default=512,
                     help='the crop size of the train image')
 parser.add_argument('--weight_path', type=str, default='pretrained_models/model_qnrf.pth',
@@ -26,7 +26,7 @@ parser.add_argument('--backbone', default='vgg16')
 parser.add_argument('--verbose', action='store_true', help='Enable verbose mode')
 args = parser.parse_args()
 
-os.environ['CUDA_VISIBLE_DEVICES'] = args.device  # set vis gpu
+os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu_id  # set vis gpu
 device = torch.device('cuda')
 
 model_path = args.weight_path
