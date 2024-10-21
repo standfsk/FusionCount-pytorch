@@ -15,8 +15,8 @@ Based on DM-Count(https://github.com/cvlab-stonybrook/DM-Count)
 
 ## Installation
 ```
-$ git clone https://github.com/standfsk/Pytorch_FusionCount.git
-$ cd Pytorch_FusionCount
+$ git clone https://github.com/standfsk/FusionCount-pytorch.git
+$ cd FusionCount-pytorch
 $ pip install -r requirements.txt
 ```
 
