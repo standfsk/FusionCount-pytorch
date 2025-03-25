@@ -1,11 +1,8 @@
-This is pytorch implementation of FusionCount paper(https://arxiv.org/abs/2202.13660) + onnx export/run
-<br>
-To see the process, visit https://colab.research.google.com/drive/1xoyjf7d-t0-Gl71B24D8TvP5oXrhGyIf
-<br>
-<br>
-For more information please refer to https://github.com/Yiming-M/FusionCount/tree/main
-<br>
-<br>
+This is unofficial implementation of FusionCount paper()
+- Paper: https://arxiv.org/abs/2202.13660
+- Colab: https://colab.research.google.com/drive/1xoyjf7d-t0-Gl71B24D8TvP5oXrhGyIf
+- Official implementation: https://github.com/Yiming-M/FusionCount/tree/main
+
 ## Intro
 Based on DM-Count(https://github.com/cvlab-stonybrook/DM-Count)
 - added preprocessing // preprocess.py
