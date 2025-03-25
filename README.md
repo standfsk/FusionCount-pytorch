@@ -1,4 +1,4 @@
-This is unofficial implementation of FusionCount paper()
+This is unofficial implementation of FusionCount
 - Paper: https://arxiv.org/abs/2202.13660
 - Colab: https://colab.research.google.com/drive/1xoyjf7d-t0-Gl71B24D8TvP5oXrhGyIf
 - Official implementation: https://github.com/Yiming-M/FusionCount/tree/main
@@ -9,6 +9,15 @@ Based on DM-Count(https://github.com/cvlab-stonybrook/DM-Count)
 - added onnx export // torchToOnnx.py
 - added onnx run // runOnnx.py
 - changed model architecture // models.py
+
+## Model
+![161753152-1019e96e-18da-43de-9af0-46c6ed55bd12](https://github.com/user-attachments/assets/796d824f-130e-47cc-9136-d144c9591fee)
+- Multi-scale fusion -> 4 fused features
+- Channel reduction + upsample + fusing applied to 4 fused features respectively
+- Loss function consists of three components
+  - Counting Loss
+  - Optimal Transport Loss
+  - Total Variance Loss
 
 ## Installation
 ```
